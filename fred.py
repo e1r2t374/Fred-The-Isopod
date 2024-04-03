@@ -10,7 +10,44 @@ fred = commands.Bot(command_prefix='~',self_bot=True, intents=intents)
 @fred.event
 async def on_ready():
     print(f'{fred.user.name} is now Online!')
-
+#Admin Commands
+@fred.command(name="create_react_roles",help="Admin: Command used to create a reaction role channel",usage="<channel name> <roles> <reactions>")
+async def create_react_roles(ctx,channel_name: str,roles: str, reactions: str):
+    global role_names, react_emojis, message
+    if ctx.author.guild_permissions.administrator:
+        existing_channel = discord.utils.get(ctx.guild.channels, name=channel_name)
+        if existing_channel:
+            await ctx.send(f"\"{channel_name}\" already exists")
+            return
+        role_names = roles.split(',')
+        react_emojis = reactions.split(',')
+        if len(role_names) != len(react_emojis):
+            await ctx.send("Number of roles must match number of reactions")
+            return
+        channel = await ctx.guild.create_text_channel(channel_name)
+        instructions= "React to assign roles:\n"
+        for role_name, emoji in zip(role_names, react_emojis):
+            role = discord.utils.get(ctx.guild.roles, name=role_name.strip())
+            if role:
+                    instructions += f"{emoji.strip()} : {role_name.strip()}\n"
+            else:
+                await ctx.send(f"Role {role_name.strip()} not found. Make sure all roles exist")
+                return
+        message = await channel.send(instructions)
+        for emoji in react_emojis:
+            await message.add_reaction(emoji.strip())
+        await ctx.send(f"{channel_name} created successfully")
+@fred.event
+async def on_reaction_add(reaction,user):
+    print("reaction added")
+    global role_names, react_emojis, message
+    if reaction.message == message and user != fred.user:
+        for role_name, emoji in zip(role_names, react_emojis):
+            if str(reaction.emoji) == emoji:
+                role = discord.utils.get(reaction.message.guild.roles, name=role_name.strip())
+                if role:
+                    await user.add_roles(role)
+                    break
 #Owner Only commands
 @fred.command(name="say",help="Owner Only: Command used to send message to TextChannel")
 async def say(ctx, destination: discord.TextChannel=None, *, message: str=None):
