@@ -5,7 +5,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.dm_messages=True
 intents.guilds=True
-fred = commands.Bot(command_prefix='~',self_bot=True, intents=intents)
+fred = commands.Bot(command_prefix='~', intents=intents)
 
 @fred.event
 async def on_ready():
