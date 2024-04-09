@@ -11,7 +11,7 @@ fred = commands.Bot(command_prefix = '~', intents = intents)
 async def on_ready():
     print(f'{fred.user.name} is now Online!')
 #Owner Only commands
-@fred.command(name = "say", help = "Owner Only: Command used to send message to TextChannel")
+@fred.command(name = "say", help = "Owner Only: Send a message to TextChannel as Fred.")
 async def say(ctx, destination: discord.TextChannel = None, *, message: str = None):
     if ctx.author.id == ctx.guild.owner_id:
         if destination:
@@ -28,7 +28,7 @@ async def say(ctx, destination: discord.TextChannel = None, *, message: str = No
     else:
         await ctx.send("You are not my Master!")
 
-@fred.command(name = "dm", help = "Owner Only: Command used to send dm without response")
+@fred.command(name = "dm", help = "Owner Only: Send dm without response as Fred.")
 async def dm(ctx, user: discord.Member = None, *, message: str = None):
     if ctx.author.id == ctx.guild.owner_id:
         if user:
@@ -45,7 +45,7 @@ async def dm(ctx, user: discord.Member = None, *, message: str = None):
     else:
         await ctx.send("You are not my Master!")
 
-@fred.command(name = "msg", help = "Owner Only: Command used to send dm with response")
+@fred.command(name = "msg", help = "Owner Only: Send dm with response as Fred.")
 async def msg(ctx, user: discord.Member = None, *, message: str = None):
     if ctx.author.id == ctx.guild.owner_id:
         if user:
