@@ -3,16 +3,16 @@ from discord.ext import commands
 
 intents = discord.Intents.default()
 intents.message_content = True
-intents.dm_messages=True
-intents.guilds=True
-fred = commands.Bot(command_prefix='~', intents=intents)
+intents.dm_messages = True
+intents.guilds = True
+fred = commands.Bot(command_prefix = '~', intents = intents)
 
 @fred.event
 async def on_ready():
     print(f'{fred.user.name} is now Online!')
 #Owner Only commands
-@fred.command(name="say",help="Owner Only: Command used to send message to TextChannel")
-async def say(ctx, destination: discord.TextChannel=None, *, message: str=None):
+@fred.command(name = "say", help = "Owner Only: Command used to send message to TextChannel")
+async def say(ctx, destination: discord.TextChannel = None, *, message: str = None):
     if ctx.author.id == ctx.guild.owner_id:
         if destination:
             if message:
@@ -28,8 +28,8 @@ async def say(ctx, destination: discord.TextChannel=None, *, message: str=None):
     else:
         await ctx.send("You are not my Master!")
 
-@fred.command(name="dm", help="Owner Only: Command used to send dm without response")
-async def dm(ctx, user: discord.Member=None, *, message: str=None):
+@fred.command(name = "dm", help = "Owner Only: Command used to send dm without response")
+async def dm(ctx, user: discord.Member = None, *, message: str = None):
     if ctx.author.id == ctx.guild.owner_id:
         if user:
             if message:
@@ -45,8 +45,8 @@ async def dm(ctx, user: discord.Member=None, *, message: str=None):
     else:
         await ctx.send("You are not my Master!")
 
-@fred.command(name="msg",help="Owner Only: Command used to send dm with response")
-async def msg(ctx, user: discord.Member=None, *, message: str=None):
+@fred.command(name = "msg", help = "Owner Only: Command used to send dm with response")
+async def msg(ctx, user: discord.Member = None, *, message: str = None):
     if ctx.author.id == ctx.guild.owner_id:
         if user:
             if message:
@@ -56,7 +56,7 @@ async def msg(ctx, user: discord.Member=None, *, message: str=None):
                     def check(message):
                         return message.author == user and message.channel.type == discord.ChannelType.private
                     try:
-                        response = await fred.wait_for('message', timeout=180, check=check)
+                        response = await fred.wait_for('message', timeout = 180, check = check)
                         await ctx.send(f"Response from {user.mention}: {response.content}")
                         await user.send("Processing message..")
                     except asyncio.TimeoutError:
