@@ -6,7 +6,11 @@ intents.message_content = True
 intents.dm_messages = True
 intents.guilds = True
 fred = commands.Bot(command_prefix = '~', intents = intents)
-
+'''
+TODO
+- Add Stock market functionality
+- Add ai responses to @bot mentions
+'''
 @fred.event
 async def on_ready():
     print(f'{fred.user.name} is now Online!')
