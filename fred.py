@@ -8,7 +8,6 @@ intents.guilds = True
 fred = commands.Bot(command_prefix = '~', intents = intents)
 '''
 TODO
-- Add Stock market functionality
 - Add AI responses to @bot mentions
 '''
 @fred.event
